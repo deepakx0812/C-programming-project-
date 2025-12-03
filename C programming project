@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <string.h>
+
+struct Student {
+    char name[50];
+    int roll;
+    float marks[5];
+    float total;
+    float avg;
+    char grade;
+    char result[10];   
+};
+void calculate(struct Student *ptr) {
+    ptr->total = 0;
+
+    for (int i = 0; i < 5; i++) {
+        ptr->total += ptr->marks[i];
+    }
+
+    ptr->avg = ptr->total / 5;
+
+    if (ptr->avg >= 90)
+        ptr->grade = 'A';
+    else if (ptr->avg >= 75)
+        ptr->grade = 'B';
+    else if (ptr->avg >= 60)
+        ptr->grade = 'C';
+    else if (ptr->avg >= 40)
+        ptr->grade = 'D';
+    else
+        ptr->grade = 'F';
+
+    if (ptr->avg >= 40)
+        strcpy(ptr->result, "PASS");
+    else
+        strcpy(ptr->result, "FAIL");
+}
+
+int main() {
+    struct Student s[5];  
+    for (int i = 0; i < 5; i++) {
+        printf("\n----- Enter details of Student %d -----\n", i + 1);
+
+        printf("Enter Student Name: ");
+        scanf(" %[^\n]", s[i].name);
+
+        printf("Enter Roll Number: ");
+        scanf("%d", &s[i].roll);
+
+        printf("Enter marks of 5 subjects:\n");
+        for (int j = 0; j < 5; j++) {
+            printf("Subject %d: ", j + 1);
+            scanf("%f", &s[i].marks[j]);
+        }
+
+        calculate(&s[i]); 
+    }
+
+    printf("\n\n========== REPORT CARDS OF 5 STUDENTS ==========\n");
+
+    for (int i = 0; i < 5; i++) {
+        printf("\n------- STUDENT %d REPORT CARD -------\n", i + 1);
+        printf("Name        : %s\n", s[i].name);
+        printf("Roll Number : %d\n", s[i].roll);
+        printf("Total Marks : %.2f\n", s[i].total);
+        printf("Average     : %.2f\n", s[i].avg);
+        printf("Grade       : %c\n", s[i].grade);
+        printf("Result      : %s\n", s[i].result);
+    }
+
+    printf("\n==============================================\n");
+
+    return 0;
+}
